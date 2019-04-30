@@ -53,6 +53,9 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 //insert new User 
      ////https:localhost3000/Users/add
      router.post('/add',function(req,res,next){ 
+       console.log(req.body);
+       console.log(req.header);
+
        user=req.email; 
       User.addUser(req.body,function(err,count){
        if(err)
