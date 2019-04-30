@@ -1,6 +1,6 @@
 var express = require('express');
  var router = express.Router();
- var Brand=require('../module/Brands');
+ var User=require('../module/User');
 
  //For Authentication
 const fs   = require('fs');
@@ -10,14 +10,16 @@ var privateKEY  = fs.readFileSync("module/keys/s.key","utf8");
 var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');  
 
 
+
  //login
-     //https:localhost3000/brands/login
+     //https:localhost3000/Users/login
      router.post('/login',(req,res)=>{
        
         //get user
         
-        Brand.Login(req.body,function(err,row){
+        User.Login(req.body,function(err,row){
 
+          
             if(err)
               {
               res.json(err);
@@ -31,8 +33,9 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
                }
                //this token to create session with user
                // var Token= auth.sign({'name':row.name})
-                var Token =jwt.sign({'name':row.name}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
-                res.json({'success':1,'message':"Successful Login","token":Token});
+              
+                var Token =jwt.sign({'name':row.email}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
+                res.json({'user':req.body.email,'message':"Successful Login","token":Token});
                   
               } 
               else
@@ -46,6 +49,25 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
    
           
 
+//Registeration No Token needed
+//insert new User 
+     ////https:localhost3000/Users/add
+     router.post('/add',function(req,res,next){ 
+       user=req.email; 
+      User.addUser(req.body,function(err,count){
+       if(err)
+       {
+       res.json(err);
+       }
+       else{
+        var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
+        
+        res.json({"email":req.body.email,"token":Token});
+        
+       }
+       });
+      });
+           
 
 
 
@@ -82,11 +104,11 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 
 
 
- //get all brands if user don't write id , or get specified brand by id    
-    //https:localhost3000/brands/:id? 
+ //get all Users if user don't write id , or get specified User by id    
+    //https:localhost3000/Users/:id? 
     router.get('/:id?',function(req,res,next){
       if(req.params.id){     
-      Brand.getBrandById(req.params.id,function(err,rows){
+      User.getUserById(req.params.id,function(err,rows){
       if(err)
         {
         res.json(err);
@@ -98,7 +120,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
        }
        else{
        
-      Brand.getAllBrands(function(err,rows){
+      User.getAllUsers(function(err,rows){
        
       if(err)
         {
@@ -114,27 +136,11 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
        });
    
 
-     
-//insert new brand 
-     ////https:localhost3000/brands/add
-     router.post('/add',function(req,res,next){  
-        Brand.addBrand(req.body,function(err,count){
-         if(err)
-         {
-         res.json(err);
-         }
-         else{
-         res.json(req.body);//or return count for 1 &amp;amp;amp; 0
-        
-         }
-         });
-        });
-             
 
-     //delete brand by id
-     //https:localhost3000/brands/del/:id
+     //delete User by id
+     //https:localhost3000/Users/del/:id
      router.delete('/del/:id',function(req,res,next){
-    Brand.deleteBrand(req.params.id,function(err,count){
+    User.deleteUser(req.params.id,function(err,count){
      deletedId=req.params.id;
     if(err)
       {
@@ -153,10 +159,10 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 
      });
 
-    //update specified brand by id
-    //https:localhost3000/brands/update/:id
+    //update specified User by id
+    //https:localhost3000/Users/update/:id
      router.put('/update/:id',function(req,res,next){
-    Brand.updateBrand(req.params.id,req.body,function(err,rows){
+    User.updateUser(req.params.id,req.body,function(err,rows){
      
     if(err)
       {
@@ -173,7 +179,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
         
 
  //logOut
-     //https:localhost3000/brands/logout
+     //https:localhost3000/Users/logout
     
 
 

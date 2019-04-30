@@ -1,5 +1,5 @@
 var express = require('express');
-var Brands=require("./routes/brandRouter")
+var Users=require("./routes/UserRouter")
 var app = express();
 
 
@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 8000;
+  port = 8100;
 }
 app.listen(port,()=>{
 	console.log("Server run on port "+port);
@@ -22,36 +22,7 @@ module.exports=app;
 
 
 
-/*
-const mysql = require('mysql');
-
-
-//Database connection
-var dbConn = mysql.createConnection({
-		host     : 'remotemysql.com',
-		user     : 'kv1c09X1Eq',
-		password : 'GrlEBZnkaf',
-		database : 'kv1c09X1Eq'
-	});
-	dbConn.connect(function(err) {
-		if(err) throw err;
-		console.log("Connected!");
-	  });
-	
-*/
-//handles url http://localhost:3000/api/Brands
-// retrive all brand users accounts
-/*app.get('/api/Brands', function(req, res, next) {
-	dbConn.query('SELECT * from Brand_users', function (error, results, fields) {
-		if (error) throw error ;
-	
-			res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-		
-
-	});
-});
-*/
-app.use('/brands',Brands); 
+app.use('/Users',Users); 
 
 
 //if we are here then the specified request is not found
