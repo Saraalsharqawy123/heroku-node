@@ -63,10 +63,8 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
      ////https:localhost3000/Users/add
      
      router.post('/add',function(req,res,next){ 
-       
-     
-      
        user=req.email; 
+       
       User.addUser(req.body,function(err,count){
        if(err)
        {
@@ -76,8 +74,8 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
        else{
         var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-         res.send({email:req.body.email,token:Token});
-         
+         //res.send({email:req.body.email,token:Token});
+         res.status(200).send(req.body);  
          console.log("dooooone");
         
        }
