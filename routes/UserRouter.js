@@ -2,6 +2,10 @@ var express = require('express');
  var router = express.Router();
  var User=require('../module/User');
 
+ var bodyParser= require('body-parser'); //to able server read the body of the requests.
+ router.use(bodyParser.json());
+ router.use(bodyParser.urlencoded({extended:true}));
+ 
  //For Authentication
 const fs   = require('fs');
 const jwt   = require('jsonwebtoken'); 
