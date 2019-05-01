@@ -14,7 +14,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 
  //login
      //https:localhost3000/Users/login
-     router.post('/login',cors,(req,res)=>{
+     router.post('/login',(req,res)=>{
        
         //get user
         
@@ -53,8 +53,8 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 //Registeration No Token needed
 //insert new User 
      ////https:localhost3000/Users/add
-     router.options('/add',cors);
-     router.post('/add',cors,function(req,res,next){ 
+     
+     router.post('/add',function(req,res,next){ 
        console.log(req.body);
        console.log(req.header);
 
