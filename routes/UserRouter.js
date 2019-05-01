@@ -61,24 +61,24 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
      router.post('/add',function(req,res,next){ 
        
      
-        result={};
+      
        user=req.email; 
       User.addUser(req.body,function(err,count){
        if(err)
        {
          console.log("errrrrror")
-       result=res.json(err);
+       res.json(err);
        }
        else{
-console.log("dooooone");
         var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-         result=res.json({"email":req.body.email,"token":Token});
+         res.json({"email":req.body.email,"token":Token});
+         console.log("dooooone");
         
        }
        });
 
-       return result;
+       
       });
            
 
