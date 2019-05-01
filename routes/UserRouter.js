@@ -74,9 +74,10 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
        else{
         var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-         //res.send({email:req.body.email,token:Token});
-         res.status(200).send(req.body);  
-         console.log("dooooone");
+//        res.json({'user':req.body.email,'message':"Successful Login","token":Token});
+        
+         res.send(JSON.stringify({email:req.body.email,token:Token}));
+          console.log("dooooone");
         
        }
        });
