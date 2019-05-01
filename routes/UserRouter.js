@@ -60,7 +60,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
      
      router.post('/add',function(req,res,next){ 
        console.log(req.body);
-       console.log(req.header);
+       
         result={};
        user=req.email; 
       User.addUser(req.body,function(err,count){
