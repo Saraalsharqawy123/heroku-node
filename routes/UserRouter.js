@@ -46,14 +46,14 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
              });
 
             })
-   
+   /*
             router.options("*",function(req,res,next){
               res.header("Access-Control-Allow-Origin", req.get("Origin")||"*");
               res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                //other headers here
                 res.status(200).end();
             });
-
+*/
 //Registeration No Token needed
 //insert new User 
      ////https:localhost3000/Users/add
@@ -61,21 +61,23 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
      router.post('/add',function(req,res,next){ 
        console.log(req.body);
        console.log(req.header);
-
+        result={};
        user=req.email; 
       User.addUser(req.body,function(err,count){
        if(err)
        {
-       res.json(err);
+       result=res.json(err);
        }
        else{
 
         var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-         res.json({"email":req.body.email,"token":Token});
+         result=res.json({"email":req.body.email,"token":Token});
         
        }
        });
+
+       return result;
       });
            
 
