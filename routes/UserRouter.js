@@ -1,5 +1,6 @@
 var express = require('express');
  var router = express.Router();
+ const cors = require('cors');
  var User=require('../module/User');
 
  //For Authentication
@@ -13,7 +14,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 
  //login
      //https:localhost3000/Users/login
-     router.post('/login',(req,res)=>{
+     router.post('/login',cors,(req,res)=>{
        
         //get user
         
@@ -52,7 +53,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
 //Registeration No Token needed
 //insert new User 
      ////https:localhost3000/Users/add
-     router.post('/add',function(req,res,next){ 
+     router.post('/add',cors,function(req,res,next){ 
        console.log(req.body);
        console.log(req.header);
 
@@ -63,9 +64,10 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
        res.json(err);
        }
        else{
+
         var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-        res.json({"email":req.body.email,"token":Token});
+         res.json({"email":req.body.email,"token":Token});
         
        }
        });
