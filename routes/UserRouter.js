@@ -10,8 +10,8 @@ var express = require('express');
 const fs   = require('fs');
 const jwt   = require('jsonwebtoken'); 
 // use 'utf8' to get string instead of byte array  (512 bit key)
-var privateKEY  = fs.readFileSync("module/keys/s.key","utf8");
-var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');  
+var privateKEY  = fs.readFileSync("./module/keys/s.key","utf8");
+var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');  
 
 
 
@@ -68,7 +68,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
       User.addUser(req.body,function(err,count){
        if(err)
        {
-         console.log("errrrrror")
+         console.log(err)
        res.json(err);
        }
        else{
@@ -76,7 +76,7 @@ var publicKEY  = fs.readFileSync("module/keys/p.key", 'utf8');
         
 //        res.json({'user':req.body.email,'message':"Successful Login","token":Token});
         
-         res.send(JSON.stringify({email:req.body.email,token:Token}));
+         res.json(Token);
           console.log("dooooone");
         
        }
