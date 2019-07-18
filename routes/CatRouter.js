@@ -20,7 +20,7 @@ var express = require('express');
 
    // check header or url parameters or post parameters for token
    router.use((req, res, next)=>{
-    var token = req.body.token || req.query.token || req.headers['Authorization'];
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
     
     
     if(token != null){
@@ -38,14 +38,14 @@ var express = require('express');
         }
        });
         
-    }
-    else{
+          }
+        else{
       
-      res.json("No Token");
+            res.json("No Token");
       
     
    
-    }
+            }
 });
 
 
@@ -90,7 +90,7 @@ var express = require('express');
    
 
 //get Cats by UserAddress    
-    //https:localhost3000/Cats/:id? 
+    //https:localhost3000/Cats/address/ 
     router.get('/address/:add',function(req,res,next){
       if(req.params.add){     
       Cat.getCatByAddress(req.params.add,function(err,catrows){
