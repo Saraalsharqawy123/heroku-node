@@ -1,5 +1,7 @@
 var express = require('express');
 var Users=require("./routes/UserRouter");
+var Cats=require("./routes/CatRouter");
+
 var app = express();
 
 
@@ -23,6 +25,7 @@ module.exports=app;
 
 
 app.use('/Users',Users); 
+app.use('/Cats',Cats); 
 
 
 //if we are here then the specified request is not found

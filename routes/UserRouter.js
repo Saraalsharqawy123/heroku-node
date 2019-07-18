@@ -38,8 +38,10 @@ var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');
                //this token to create session with user
                // var Token= auth.sign({'name':row.name})
               
-                var Token =jwt.sign({'name':row.email}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
-                res.json({'user':req.body.email,'message':"Successful Login","token":Token});
+                var Token =jwt.sign({'name':req.body.email}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
+                
+                //res.json({'user':req.body.email,'message':"Successful Login","token":Token});
+       res.json({'email':req.body.email,'message':'Successful Login','token':Token,'success':1});
                   
               } 
               else
@@ -57,25 +59,26 @@ var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');
                //other headers here
                 res.status(200).end();
             });
-*/
+     */     
 //Registeration No Token needed
 //insert new User 
      ////https:localhost3000/Users/add
      
      router.post('/add',function(req,res,next){ 
-       user=req.email; 
        
-      User.addUser(req.body,function(err,count){
+       User.addUser(req.body,function(err,count){
        if(err)
        {
          console.log(err)
        res.json(err);
        }
        else{
-        var Token =jwt.sign({'name':user}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
+        var Token =jwt.sign({'name':req.body.email}, privateKEY, { expiresIn:  "30d",  algorithm:  "RS256"});
         
-       res.json(JSON.stringify({user:req.body.email,message:'Successful Login',token:Token}));
-        
+       
+       //res.json(JSON.stringify({email:req.body.email,message:'Successful Register',token:Token}));
+       res.json({'email':req.body.email,'message':'Successful Register','token':Token});
+                  
      //   res.json(Token);
           console.log("dooooone");
         
@@ -192,12 +195,119 @@ var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');
       });
      });
      
-    
         
+     router.get('/info/:email?',function(req,res,next){
+      
+     if(req.params.email){     
+        User.getUserByEmail(req.params.email,function(err,result){
+     if(err)
+       {
+       res.json(err);
+       }
+       else{
+       res.json(result);
+       }
+       });
+      }
+      
+      });
 
- //logOut
-     //https:localhost3000/Users/logout
+       
+        //change password
+
+        router.put('/changePass',function(req,res){
+      
+           User.ChangePass(req.body,function(err,result){
+          
+            if(err)
+            {
+            res.json({status:0,msg:"Please write correct old password"});
+            //res.json(err);
+            }
+            else{
+              res.json({status:1,msg:"Done .. password changed"});
+            
+            }
+            });
+           
+           
+           });
+     
+     
+
+        //Edit Profile
+
+        router.put('/EditProfile',function(req,res){
+      
+          User.updateUser(req.body,function(err,result){
+         
+           if(err)
+           {
+           res.json({status:0,msg:err});
+           //res.json(err);
+           }
+           else{
+             res.json({status:1});
+           
+           }
+           });
+          
+          
+          });
     
+//Reviews
+
+router.get('/Reviews/:id',function(req,res){
+  if(req.params.id)
+      {
+          User.getReview(req.params.id,function(err,rows){
+
+            if(err)
+            {res.json(err);}
+            else
+            {
+              res.json(rows);
+            }
+          })
+      }  
+
+});
+
+        router.post('/Reviews',function(req,res){
+      
+          //check user Id review this user previous.
+            User.checkReview(req.body,function(err,rows){
+
+                if(err){res.send(err);}
+                else{
+                    //if there past reviews update it else create new one
+                   if(rows.length !=0)
+                   {
+                     //update
+                     User.UpdateReview(req.body,function(err,rows){
+
+                      if(err){res.json(err);}
+                      else{
+                        res.json({done:true})}
+                     })
+                   }
+                   else
+                   {
+                     //insert
+                     
+                     User.InsertReview(req.body,function(err,rows){
+
+                      if(err){res.json(err);}
+                      else{
+                        res.json({done:true})}
+                     })
+                   }
+
+                }
+            });
 
 
+          });
+    
+         
      module.exports=router;
