@@ -15,6 +15,12 @@ var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');
 
 
 
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
  //login
      //https:localhost3000/Users/login
      router.post('/login',(req,res)=>{
@@ -52,14 +58,7 @@ var publicKEY  = fs.readFileSync("./module/keys/p.key", 'utf8');
              });
 
             })
-   /*
-            router.options("*",function(req,res,next){
-              res.header("Access-Control-Allow-Origin", req.get("Origin")||"*");
-              res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-               //other headers here
-                res.status(200).end();
-            });
-     */     
+   
 //Registeration No Token needed
 //insert new User 
      ////https:localhost3000/Users/add
