@@ -21,11 +21,7 @@ var express = require('express');
    // check header or url parameters or post parameters for token
    router.use((req, res, next)=>{
 
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-   
-    res.header("Access-Control-Allow-Headers", "Origin,x-access-token, X-Requested-With, Content-Type, Accept");
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
     
     
     if(token != null){
