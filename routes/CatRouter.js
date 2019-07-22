@@ -67,7 +67,7 @@ var express = require('express');
               Cat.InsertLove(req.body);
                         
                         
-      res.json({'success':1,'data':res.json(row)});
+      res.json({'success':1,'data':row});
             }
         });
       
