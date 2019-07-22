@@ -59,12 +59,15 @@ var express = require('express');
 
             if(err)
             {
-                res.json(err);
+      res.json({'success':0,'data':err});
+      
             }
             else
             {
               Cat.InsertLove(req.body);
-                        res.json(row);
+                        
+                        
+      res.json({'success':1,'data':res.json(row)});
             }
         });
       
