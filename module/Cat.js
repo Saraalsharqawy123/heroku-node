@@ -28,7 +28,7 @@ return db.query("select * from Cats where userId=?",[id],callback);
  },
  
  updateCat:function(Cat,callback){
-  return db.query("update Cats set img=?,type=?,age=?,goal=?,note=?,status=? ,price=? where Id=?",[Cat.img,Cat.type,Cat.age,Cat.goal,Cat.note,Cat.status,Cat.price,Cat.Id],callback);
+  return db.query("update Cats set img=?,type=?,age=?,goal=?,note=?,status=? ,price=?,gender=? where Id=?",[Cat.img,Cat.type,Cat.age,Cat.goal,Cat.note,Cat.status,Cat.price,Cat.gender,Cat.Id],callback);
  }
  ,
 
